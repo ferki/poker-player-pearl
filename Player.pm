@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.1.1';
+our $VERSION = '0.1.2';
 
 sub new {
     my $class = shift;
@@ -33,6 +33,17 @@ sub get_bet {
         return $self->raise if $self->{game_state}->{bet_index} == 0;
         return $self->call  if $self->{game_state}->{bet_index} != 0;
     }
+    elsif (
+        $self->has_rank('A')
+        && (   $self->has_rank('K')
+            || $self->has_rank('Q')
+            || $self->has_rank('J') )
+      )
+    {
+        return $self->raise
+          if $self->{game_state}->{bet_index} == 0;
+        return $self->call if $self->{game_state}->{bet_index} != 0;
+    }
     else {
         return 0;
     }
@@ -56,6 +67,18 @@ sub call {
 sub allin {
     my $self = shift;
     return $self->{player}->{stack};
+}
+
+sub has_rank {
+    my $self = shift;
+    my $rank = shift;
+    return ( $self->{hand}->[0]->{rank} eq $rank
+          || $self->{hand}->[1]->{rank} eq $rank );
+}
+
+sub has_suited {
+    my $self = shift;
+    return $self->{hand}->[0]->{suite} eq $self->{hand}->[1]->{suite};
 }
 
 sub has_pair {
