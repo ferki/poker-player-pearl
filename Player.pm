@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.2.1';
+our $VERSION = '0.2.2';
 
 sub new {
     my $class = shift;
@@ -140,7 +140,7 @@ sub has_rank {
 
 sub has_suited {
     my $self = shift;
-    return $self->{hand}->[0]->{suite} eq $self->{hand}->[1]->{suite};
+    return $self->{hand}->[0]->{suit} eq $self->{hand}->[1]->{suit};
 }
 
 sub has_pair {
