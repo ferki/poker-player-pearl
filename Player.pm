@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.6';
+our $VERSION = '0.0.7';
 
 sub new {
     my $class = shift;
@@ -39,21 +39,20 @@ sub get_bet {
 
 sub has_pair {
     my $self = shift;
-    $self->get_my_hand;
     return $self->{hand}->[0]->{rank} eq $self->{hand}->[1]->{rank};
-}
-
-sub get_my_hand {
-    my $self = shift;
-    $self->{hand} = $self->{player}->{hole_cards};
 }
 
 sub parse {
     my $self = shift;
-    $self->{players} = $self->{game_state}->{players};
+    $self->{pot}         = $self->{game_state}->{pot};
+    $self->{small_blind} = $self->{game_state}->{small_blind};
+    $self->{big_blind}   = $self->{game_state}->{small_blind} * 2;
+    $self->{players}     = $self->{game_state}->{players};
+
     for my $player ( @{ $self->{players} } ) {
         next unless $player->{name} eq $self->{name};
         $self->{player} = $player;
+        $self->{hand}   = $self->{player}->{hole_cards};
     }
 }
 
