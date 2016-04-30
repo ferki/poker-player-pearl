@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.1.0';
+our $VERSION = '0.1.1';
 
 sub new {
     my $class = shift;
@@ -29,7 +29,10 @@ sub version {
 
 sub get_bet {
     my $self = shift;
-    if ( $self->has_pair ) { return $self->raise }
+    if ( $self->has_pair ) {
+        return $self->raise if $self->{game_state}->{bet_index} == 0;
+        return $self->call  if $self->{game_state}->{bet_index} != 0;
+    }
     else {
         return 0;
     }
