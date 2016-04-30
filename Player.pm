@@ -68,10 +68,11 @@ sub postflop {
 
 sub raise {
     my $self = shift;
-    if ( $self->{game_state}->{bet_index} == 0 ) {
+    if ( $self->preflop ) {
         return max( $self->call + $self->{game_state}->{minimum_raise},
             int( 3.5 * $self->{big_blind} ) );
     }
+
     return int( $self->{pot} * 0.67 );
 }
 
