@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.2.2';
+our $VERSION = '0.2.3';
 
 sub new {
     my $class = shift;
@@ -57,8 +57,7 @@ sub get_bet {
         return $self->call  if $self->postflop;
     }
     elsif ( $self->connector && $self->has_suited ) {
-        return $self->raise if $self->preflop;
-        return $self->call  if $self->postflop;
+        return 0;
     }
     else {
         return 0;
