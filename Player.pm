@@ -104,7 +104,7 @@ sub rank_diff {
     my $rank2 = $map{ $self->{hand}->[1]->{rank} };
 
     my $diff = abs( $rank1 - $rank2 );
-    $diff = $diff == 12 ? 2 : $diff;
+    $diff = $diff == 12 ? 1 : $diff;
     return $diff;
 }
 
