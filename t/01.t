@@ -29,7 +29,7 @@ my $game_state = decode_json( '
             },
             {
                 "id"         : 1,
-                "name"       : "Bob",
+                "name"       : "pearl",
                 "status"     : "active",
                 "version"    : "Default random player",
                 "stack"      : 1590,
