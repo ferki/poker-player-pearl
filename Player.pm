@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.1.5';
+our $VERSION = '0.1.6';
 
 sub new {
     my $class = shift;
@@ -31,6 +31,13 @@ sub version {
 sub get_bet {
     my $self = shift;
     if ( $self->has_pair ) {
+        if (   $self->has_rank('K')
+            || $self->has_rank('Q')
+            || $self->has_rank('J') )
+        {
+            return $self->raise;
+        }
+
         return $self->raise if $self->preflop;
         return $self->call  if $self->postflop;
     }
