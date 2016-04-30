@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.1.8';
+our $VERSION = '0.1.9';
 
 sub new {
     my $class = shift;
@@ -63,7 +63,7 @@ sub get_bet {
 
 sub preflop {
     my $self = shift;
-    return $self->{game_state}->{bet_index} == 0;
+    return scalar @{ $self->{game_state}->{community_cards} } == 0;
 }
 
 sub postflop {
