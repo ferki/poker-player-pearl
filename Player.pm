@@ -2,9 +2,8 @@ package Player;
 
 use strict;
 use warnings;
-use List::Util qw(max);
 
-our $VERSION = '0.0.9';
+our $VERSION = '0.1.0';
 
 sub new {
     my $class = shift;
@@ -30,13 +29,30 @@ sub version {
 
 sub get_bet {
     my $self = shift;
-    if ( $self->has_pair ) {
-        return max( int( $self->{big_blind} * 3.5 ),
-            int( $self->{pot} / 0.66 ), );
-    }
+    if ( $self->has_pair ) { return $self->raise }
     else {
         return 0;
     }
+}
+
+sub raise {
+    my $self = shift;
+    return $self->call + $self->{game_state}->{minimum_raise};
+}
+
+sub fold {
+    my $self = shift;
+    return $self->call - 1;
+}
+
+sub call {
+    my $self = shift;
+    return $self->{game_state}->{current_buy_in} - $self->{player}->{bet};
+}
+
+sub allin {
+    my $self = shift;
+    return $self->{player}->{stack};
 }
 
 sub has_pair {

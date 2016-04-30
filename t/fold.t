@@ -67,6 +67,6 @@ my $game_state = decode_json( '
     }'
 );
 
-is( $player->bet_request($game_state), 1 );
+is( $player->bet_request($game_state), 0 );
 
 done_testing();
