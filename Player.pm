@@ -3,17 +3,18 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.4';
+our $VERSION = '0.0.5';
 
 sub new {
     my $class = shift;
-    my $args  = {};
+    my $args = { name => 'pearl' };
     return bless $args, $class;
 }
 
 sub bet_request {
     my $self = shift;
     $self->{game_state} = shift;
+    $self->parse();
     return $self->get_bet();
 }
 
@@ -43,11 +44,16 @@ sub has_pair {
 }
 
 sub get_my_hand {
-    my $self    = shift;
-    my $players = $self->{game_state}->{players};
-    for my $player ( @{$players} ) {
-        next unless defined $player->{hole_cards};
-        $self->{hand} = $player->{hole_cards};
+    my $self = shift;
+    $self->{hand} = $self->{player}->{hole_cards};
+}
+
+sub parse {
+    my $self = shift;
+    $self->{players} = $self->{game_state}->{players};
+    for my $player ( @{ $self->{players} } ) {
+        next unless $player->{name} eq $self->{name};
+        $self->{player} = $player;
     }
 }
 
