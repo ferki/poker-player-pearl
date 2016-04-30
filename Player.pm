@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.1.7';
+our $VERSION = '0.1.8';
 
 sub new {
     my $class = shift;
@@ -31,10 +31,11 @@ sub version {
 sub get_bet {
     my $self = shift;
     if ( $self->has_pair ) {
-        if (   $self->has_rank('K')
-            || $self->has_rank('Q')
-            || $self->has_rank('J') )
-        {
+        if ( $self->has_rank('A') || $self->has_rank('K') ) {
+            $return->allin;
+        }
+
+        if ( $self->has_rank('Q') || $self->has_rank('J') ) {
             return $self->raise;
         }
 
