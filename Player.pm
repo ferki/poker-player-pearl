@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.1.4';
+our $VERSION = '0.1.5';
 
 sub new {
     my $class = shift;
@@ -31,8 +31,8 @@ sub version {
 sub get_bet {
     my $self = shift;
     if ( $self->has_pair ) {
-        return $self->raise if $self->{game_state}->{bet_index} == 0;
-        return $self->call  if $self->{game_state}->{bet_index} != 0;
+        return $self->raise if $self->preflop;
+        return $self->call  if $self->postflop;
     }
     elsif (
         $self->has_rank('A')
@@ -41,18 +41,31 @@ sub get_bet {
             || $self->has_rank('J') )
       )
     {
-        return $self->raise
-          if $self->{game_state}->{bet_index} == 0;
-        return $self->call if $self->{game_state}->{bet_index} != 0;
+        return $self->raise if $self->preflop;
+        return $self->call  if $self->postflop;
     }
     else {
         return 0;
     }
 }
 
+sub preflop {
+    my $self = shift;
+    return $self->{game_state}->{bet_index} == 0;
+}
+
+sub postflop {
+    my $self = shift;
+    return !$self->preflop;
+}
+
 sub raise {
     my $self = shift;
-    return $self->call + $self->{game_state}->{minimum_raise};
+    if ( $self->{game_state}->{bet_index} == 0 ) {
+        return max( $self->call + $self->{game_state}->{minimum_raise},
+            int( 3.5 * $self->{big_blind} ) );
+    }
+    return int( $self->{pot} * 0.67 );
 }
 
 sub fold {
