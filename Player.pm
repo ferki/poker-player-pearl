@@ -3,8 +3,9 @@ package Player;
 use strict;
 use warnings;
 use List::Util qw(max);
+use 5.010;
 
-our $VERSION = '0.1.9';
+our $VERSION = '0.2.0';
 
 sub new {
     my $class = shift;
@@ -81,6 +82,32 @@ sub raise {
     return int( $self->{pot} * 0.67 );
 }
 
+sub rank_diff {
+    my $self = shift;
+    my %map  = (
+        2  => 2,
+        3  => 3,
+        4  => 4,
+        5  => 5,
+        6  => 6,
+        7  => 7,
+        8  => 8,
+        9  => 9,
+        10 => 10,
+        J  => 11,
+        Q  => 12,
+        K  => 13,
+        A  => 14,
+    );
+
+    my $rank1 = $map{ $self->{hand}->[0]->{rank} };
+    my $rank2 = $map{ $self->{hand}->[1]->{rank} };
+
+    my $diff = abs( $rank1 - $rank2 );
+    $diff = $diff == 12 ? 2 : $diff;
+    return $diff;
+}
+
 sub fold {
     my $self = shift;
     return $self->call - 1;
@@ -110,7 +137,7 @@ sub has_suited {
 
 sub has_pair {
     my $self = shift;
-    return $self->{hand}->[0]->{rank} eq $self->{hand}->[1]->{rank};
+    return $self->rank_diff == 0;
 }
 
 sub parse {
