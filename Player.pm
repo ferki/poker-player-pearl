@@ -32,7 +32,7 @@ sub get_bet {
     my $self = shift;
     if ( $self->has_pair ) {
         if ( $self->has_rank('A') || $self->has_rank('K') ) {
-            $return->allin;
+            return $self->allin;
         }
 
         if ( $self->has_rank('Q') || $self->has_rank('J') ) {
