@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util qw(max);
 
-our $VERSION = '0.0.8';
+our $VERSION = '0.0.9';
 
 sub new {
     my $class = shift;
@@ -35,7 +35,7 @@ sub get_bet {
             int( $self->{pot} / 0.66 ), );
     }
     else {
-        return 1;
+        return 0;
     }
 }
 
