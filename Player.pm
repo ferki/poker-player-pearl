@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.5';
+our $VERSION = '0.0.6';
 
 sub new {
     my $class = shift;
@@ -30,7 +30,7 @@ sub version {
 sub get_bet {
     my $self = shift;
     if ( $self->has_pair ) {
-        return 1000;
+        return int( $self->{player}->{stack} / 2 );
     }
     else {
         return 1;
