@@ -3,9 +3,8 @@ package Player;
 use strict;
 use warnings;
 use List::Util qw(max);
-use 5.010;
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.2.1';
 
 sub new {
     my $class = shift;
@@ -57,9 +56,18 @@ sub get_bet {
         return $self->raise if $self->preflop;
         return $self->call  if $self->postflop;
     }
+    elsif ( $self->connector && $self->has_suited ) {
+        return $self->raise if $self->preflop;
+        return $self->call  if $self->postflop;
+    }
     else {
         return 0;
     }
+}
+
+sub connector {
+    my $self = shift;
+    return $self->rank_diff == 1;
 }
 
 sub preflop {
