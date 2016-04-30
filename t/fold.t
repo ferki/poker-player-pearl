@@ -5,6 +5,7 @@ use Test::More;
 use JSON::MaybeXS;
 use Player;
 
+my $player     = Player->new();
 my $game_state = decode_json( '
     {
         "tournament_id" : "550d1d68cd7bd10003000003",
@@ -66,6 +67,6 @@ my $game_state = decode_json( '
     }'
 );
 
-is( Player::bet_request($game_state), 0 );
+is( $player->bet_request($game_state), 0 );
 
 done_testing();
