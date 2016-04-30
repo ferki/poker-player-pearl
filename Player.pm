@@ -2,30 +2,21 @@ package Player;
 
 use strict;
 use warnings;
-use HTTP::Request;
-use LWP::UserAgent;
-use JSON::MaybeXS;
+use List::Util qw(max);
 
-our $VERSION = '0.1.3';
+our $VERSION = '0.1.4';
 
 sub new {
     my $class = shift;
-    my $args  = {
-        name   => 'pearl',
-        winner => 'http://hidden-journey-43676.herokuapp.com/'
-    };
+    my $args = { name => 'pearl' };
     return bless $args, $class;
 }
 
 sub bet_request {
     my $self = shift;
     $self->{game_state} = shift;
-    my $req = HTTP::Request->new( POST => $self->{winner} );
-    $req->header( 'Content-Type' => 'application/json' );
-    $req->content( encode_json( $self->{game_state} ) );
-    my $lwp = LWP::UserAgent->new;
-    my $res = $lwp->request($req);
-    return $res->decoded_content;
+    $self->parse();
+    return $self->get_bet();
 }
 
 sub check { }
