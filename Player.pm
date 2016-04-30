@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.0';
+our $VERSION = '0.0.1';
 
 sub new {
     my ( $class, $args ) = @_;

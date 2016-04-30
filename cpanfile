@@ -1,2 +1,2 @@
 requires 'HTTP::Daemon';
-requires 'JSON::Any';
+requires 'JSON::MaybeXS';

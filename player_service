@@ -7,7 +7,7 @@ use CGI;
 use HTTP::Daemon;
 use HTTP::Response;
 use HTTP::Status qw(:constants);
-use JSON::Any;
+use JSON::MaybeXS;
 use Player;
 
 my $port = $ENV{PORT} || 1234;
@@ -23,7 +23,7 @@ while ( my $client = $daemon->accept ) {
         my $params     = CGI->new( $request->decoded_content )->Vars;
         my $response   = HTTP::Response->new();
         my $action     = $params->{action};
-        my $game_state = JSON::Any->decode( $params->{game_state} )
+        my $game_state = decode_json( $params->{game_state} )
             if defined $params->{game_state};
 
         if ( $player->can($action) ) {
