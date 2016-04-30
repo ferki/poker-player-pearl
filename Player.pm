@@ -11,7 +11,7 @@ sub new {
 }
 
 sub bet_request {
-    return 0;
+    return 1000;
 }
 
 sub check { }
